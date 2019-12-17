@@ -15,7 +15,7 @@ public class WorkFlow {
 
     private boolean isDisposed = false;
 
-     private WorkFlow(SparseArray<WorkNode> flowNodes) {
+    private WorkFlow(SparseArray<WorkNode> flowNodes) {
         this.flowNodes = flowNodes;
     }
 
@@ -35,9 +35,12 @@ public class WorkFlow {
         if (isDisposed) {
             throw new IllegalStateException("you can not operate a disposed workflow");
         }
-        if (flowNodes == null || id < 0) return null;
 
-        return flowNodes.valueAt(id);
+        if (flowNodes == null) return null;
+        int index = flowNodes.indexOfKey(id);
+        if (index < 0) return null;
+
+        return flowNodes.valueAt(index);
     }
 
     /**
@@ -68,7 +71,6 @@ public class WorkFlow {
     public boolean isDisposed() {
         return isDisposed;
     }
-
 
 
     /**
@@ -134,7 +136,6 @@ public class WorkFlow {
             }
         }
     }
-
 
 
     private void findAndExecuteNextNodeIfExist(int startIndex) {

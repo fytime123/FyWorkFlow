@@ -42,13 +42,22 @@ public class MainActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
+                        current.setResult("this is first flow result");
                         // workflow will execute the next node when called onCompleted
                         current.onCompleted();
                     }
-                }))
+                },"request data"))
                 .withNode(WorkNode.build(2, new Worker() {
                     @Override
                     public void doWork(Node current) {
+
+                       Node<?,String> node =  workFlow.getNode(1);
+                       if(node!=null){
+                           //获取第一个节点的结果
+                           String result = node.getResult();
+                       }
+
                         Log.d(TAG, "this is node " + current.getId() + " executed. thread:" + Thread.currentThread().getName());
                         current.onCompleted();
                     }
